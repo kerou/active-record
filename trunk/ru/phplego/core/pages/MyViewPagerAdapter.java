@@ -64,9 +64,8 @@ class MyViewPagerAdapter extends PagerAdapter implements TitleProvider {
             return view;
         }
         Page page = mPages.get(pageIndex);
+        if(page.isCreated()) return page.getContentView();
         page.onCreate(); // Вот здесь то и создается страница
-        //mPages.get(pageIndex).setContentView(view);          // Сохраняем View в самом Page
-
         collection.addView(page.getContentView());
         _page_view_cache.put(pageIndex, page.getContentView());
         return page.getContentView();
