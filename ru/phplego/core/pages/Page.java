@@ -16,6 +16,7 @@ import ru.phplego.core.preferences.SmartPrefBoolean;
 abstract public class Page implements View.OnCreateContextMenuListener {
     private ActivityPagerAbstract mActivityPager;
     private int mPosition;
+    public boolean mIsCreated = false;
     public SmartPrefBoolean mIsEnabled;
 
     protected View mContentView;
@@ -42,6 +43,7 @@ abstract public class Page implements View.OnCreateContextMenuListener {
     }
 
     protected void onCreate(){
+        mIsCreated = true;
     }
 
     abstract public String getTitle();
@@ -94,6 +96,10 @@ abstract public class Page implements View.OnCreateContextMenuListener {
 
     public boolean isCurrent(){
         return this.equals(mActivityPager.getCurrentPage());
+    }
+
+    public boolean isCreated(){
+        return mIsCreated;
     }
 
     public void setContentView(View view){

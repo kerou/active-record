@@ -96,7 +96,7 @@ public class ActivityPagerAbstract extends Activity implements ViewPager.OnPageC
     }
 
     @Override
-    public void onPageScrollStateChanged(int i) {
+    public void onPageScrollStateChanged(int state) {
     }
 
     @Override
@@ -173,15 +173,23 @@ public class ActivityPagerAbstract extends Activity implements ViewPager.OnPageC
         return myPages;
     }
 
+    public ViewPager getViewPager(){
+        return myPager;
+    }
+
     public Page getCurrentPage(){
         if(myPages.size() <= myCurrentPage) return null;
         if(myCurrentPage < 0) return null;
         return myPages.get(myCurrentPage);
     }
 
+    public int getCurrentPagePosition(){
+        return myCurrentPage;
+    }
+
     public void setCurrentPage(int pageIndex, boolean smoothScroll){
-        myIndicator.setCurrentItem(pageIndex);
-        myPager.setCurrentItem(pageIndex, smoothScroll);
+        myIndicator.setCurrentItem(pageIndex, smoothScroll);
+        //myPager.setCurrentItem(pageIndex, smoothScroll);
     }
 
     public void restart(int pagePosition){

@@ -670,12 +670,17 @@ public class TitlePageIndicator extends View implements PageIndicator {
         mCenterItemClickListener = listener;
     }
 
+
     @Override
-    public void setCurrentItem(int item) {
+    public void setCurrentItem(int item){
+        this.setCurrentItem(item, false);
+    }
+
+    public void setCurrentItem(int item, boolean smoothScroll) {
         if (mViewPager == null) {
             throw new IllegalStateException("ViewPager has not been bound.");
         }
-        mViewPager.setCurrentItem(item);
+        mViewPager.setCurrentItem(item, smoothScroll);
         mCurrentPage = item;
         invalidate();
     }
