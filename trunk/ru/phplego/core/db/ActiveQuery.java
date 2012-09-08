@@ -109,10 +109,14 @@ public class ActiveQuery<ACTIVE_OBJECT_CLASS extends ActiveRecord> {
         if(where.size() > 0)  where_str = "("+ StringUtils.join(where, ") AND (")+")";
 
         Cursor cursor = Database.getDatabase().query(from().getTableName(), select, where_str, whereArgs.toArray(new String[0]), groupby, null, orderby, limit_str);
+        Vector<ACTIVE_OBJECT_CLASS> objects = this.objects(cursor);
+        cursor.close();
+        return  objects;
+    }
+
+    public Vector<ACTIVE_OBJECT_CLASS> objects(Cursor cursor){
         Vector<ActiveRecord> objects = new Vector<ActiveRecord>();
-
         cursor.moveToFirst();
-
         do{
             if(cursor.getCount() <= 0) break;
 
@@ -143,7 +147,6 @@ public class ActiveQuery<ACTIVE_OBJECT_CLASS extends ActiveRecord> {
             objects.add(record);
         }while(cursor.moveToNext());
 
-        cursor.close();
         return (Vector<ACTIVE_OBJECT_CLASS>) objects;
     }
     
