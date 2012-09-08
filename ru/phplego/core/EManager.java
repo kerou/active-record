@@ -18,9 +18,9 @@ public class EManager {
         private Context mContext = null;
     }
 
-    public static abstract class EventListenter{
+    public static abstract class EventListenter<TEventClass extends Event>{
         private Context mContext = null;
-        public abstract void onEvent(Event e);
+        public abstract void onEvent(TEventClass e);
     }
 
     private class ListenerSet extends LinkedHashSet<EventListenter>{}
@@ -28,17 +28,15 @@ public class EManager {
     private LinkedHashMap<Class<? extends Event>, ListenerSet> mListeners = new LinkedHashMap<Class<? extends Event>, ListenerSet>();
 
     public void riseEvent(Event event, Context context){
-        Log.d(" RISE EVENT " + event.getClass().getSimpleName());
         event.mContext = context;
         if(!mListeners.containsKey(event.getClass())) return;
-        Log.d(" Lesteners count " + mListeners.get(event.getClass()).size());
-        //if(true)return;
+        Log.d(" RISE EVENT " + event.getClass().getSimpleName()+" Lesteners count " + mListeners.get(event.getClass()).size());
         for(EventListenter listenter: mListeners.get(event.getClass())){
             if(event.mContext == listenter.mContext) listenter.onEvent(event);
         }
     }
 
-    public void setEventListener(Class<? extends Event> cls, EventListenter listenter, Context context){
+    public void setEventListener(Class<? extends Event> cls, EventListenter<? extends Event> listenter, Context context){
         listenter.mContext = context;
         if(!mListeners.containsKey(cls))
             mListeners.put(cls, new ListenerSet());

@@ -192,6 +192,12 @@ public class ActivityPagerAbstract extends Activity implements ViewPager.OnPageC
         //myPager.setCurrentItem(pageIndex, smoothScroll);
     }
 
+    public void restart(){
+        Intent intent = new Intent(this, this.getClass());
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
     public void restart(int pagePosition){
         Intent intent = new Intent(this, this.getClass());
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -200,9 +206,13 @@ public class ActivityPagerAbstract extends Activity implements ViewPager.OnPageC
     }
 
     public void restart(Class<? extends Page> clazz){
+        this.restart(clazz.getSimpleName());
+    }
+
+    public void restart (String simple_class_name){
         Intent intent = new Intent(this, this.getClass());
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(EXTRA_CURRENT_PAGE_CLASS, clazz.getSimpleName());
+        intent.putExtra(EXTRA_CURRENT_PAGE_CLASS, simple_class_name);
         startActivity(intent);
     }
 }

@@ -322,4 +322,18 @@ public final class Log {
 
         return "";
     }
+
+    private static long mTimePoint = 0;
+    public static void timePoint(String name){
+        if(mTimePoint == 0){
+            mTimePoint = System.currentTimeMillis();
+            return;
+        }
+
+        d("Time point ["+name+"] time: "+(System.currentTimeMillis() - mTimePoint) + " ms");
+        mTimePoint = System.currentTimeMillis();
+    }
+    public static void timePoint(){
+        timePoint("");
+    }
 }

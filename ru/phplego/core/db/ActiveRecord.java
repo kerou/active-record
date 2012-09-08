@@ -18,11 +18,11 @@ import java.util.*;
 public class ActiveRecord implements Map<String, String>, Cachable {
     final static String PRIMARY_KEY_FIELD_NAME = "_id";
     private boolean mIsDeleted;
-    protected String table;
+    private String table;
     static private Hashtable<String, ActiveRecord> _active_records_cache = new Hashtable();
-    protected LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
-    protected LinkedHashMap<String, String> data_modified = new LinkedHashMap<String, String>();
-    protected LinkedHashSet<OnChangeListener> onChangeListeners = new LinkedHashSet<OnChangeListener>();
+    private LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
+    private LinkedHashMap<String, String> data_modified = new LinkedHashMap<String, String>();
+    private LinkedHashSet<OnChangeListener> onChangeListeners = new LinkedHashSet<OnChangeListener>();
 
 
     // Реализация интерфейса Map
