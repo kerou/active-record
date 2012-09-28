@@ -4,6 +4,8 @@ package ru.phplego.core;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
+import android.os.StatFs;
 import android.provider.ContactsContract;
 
 /**
@@ -44,5 +46,10 @@ public class AndroidUtils {
 
         // return the original number if no match was found
         return number;
+    }
+
+    static public long getFreeSpaceOnSD(){
+        StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+        return stat.getAvailableBlocks() * stat.getBlockSize();
     }
 }
