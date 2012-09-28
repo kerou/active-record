@@ -13,8 +13,16 @@ import java.text.SimpleDateFormat;
  */
 public class Date extends java.util.Date{
 
+    public Date() {
+        super();
+    }
+
     public Date(long createdTime) {
         super(createdTime);
+    }
+
+    public Date(java.util.Date createdTime) {
+        super(createdTime.getTime());
     }
 
     /*
