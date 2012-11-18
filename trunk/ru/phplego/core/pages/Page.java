@@ -110,4 +110,11 @@ abstract public class Page implements View.OnCreateContextMenuListener {
         return mContentView;
     }
 
+    public View findViewById(int id) {
+        return mContentView.findViewById(id);
+    }
+
+    public void runOnUiThread(Runnable action){
+        mActivityPager.runOnUiThread(action);
+    }
 }

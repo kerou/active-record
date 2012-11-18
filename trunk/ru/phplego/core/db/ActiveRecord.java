@@ -161,6 +161,10 @@ public class ActiveRecord implements Map<String, String>, Cachable {
         set(field_name, value.toString(), false);
     }
 
+    public void set(String field_name, Double value){
+        set(field_name, value.toString(), false);
+    }
+
     public void set(String field_name, boolean value){
         set(field_name, value ? "1" : "0", false);
     }
@@ -193,7 +197,15 @@ public class ActiveRecord implements Map<String, String>, Cachable {
         }catch (Exception e){}
         return 0;
     }
-    
+
+    public double getDouble(String field_name){
+        String value = data.get(field_name);
+        try{
+            return Double.parseDouble(value);
+        }catch (Exception e){}
+        return 0;
+    }
+
     public boolean getBool(String field_name){
         return getInt(field_name) > 0;
     }
@@ -204,9 +216,11 @@ public class ActiveRecord implements Map<String, String>, Cachable {
     public boolean getBool(ActiveField activeField){  return getBool(activeField.getName());   }
     public int getInt(ActiveField activeField){  return getInt(activeField.getName());   }
     public long getLong(ActiveField activeField){  return getLong(activeField.getName());   }
+    public double getDouble(ActiveField activeField){  return getDouble(activeField.getName());   }
     public void set(ActiveField activeField, String val){  set(activeField.getName(), val);   }
     public void set(ActiveField activeField, boolean val){  set(activeField.getName(), val);   }
     public void set(ActiveField activeField, long val){  set(activeField.getName(), val);   }
+    public void set(ActiveField activeField, double val){  set(activeField.getName(), val);   }
 
 
     public long insert(){
