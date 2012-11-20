@@ -2,6 +2,8 @@ package ru.phplego.core.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.DataSetObservable;
+import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import ru.phplego.core.Cachable;
 
@@ -15,10 +17,11 @@ import java.util.*;
  * Time: 18:36
  * To change this template use File | Settings | File Templates.
  */
-public class ActiveRecord implements Map<String, String>, Cachable {
+public class ActiveRecord implements Map<String, String>, Cachable{
     final static String PRIMARY_KEY_FIELD_NAME = "_id";
     private boolean mIsDeleted;
     private String table;
+    private DataSetObservable mDataSetObservable = new DataSetObservable();
     static private Hashtable<String, ActiveRecord> _active_records_cache = new Hashtable();
     private LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
     private LinkedHashMap<String, String> data_modified = new LinkedHashMap<String, String>();
@@ -43,7 +46,6 @@ public class ActiveRecord implements Map<String, String>, Cachable {
     public String put(String key, String value)     {
         data_modified.put(key, value);
         return data.put(key, value);
-
     }
 
     @Override
@@ -151,6 +153,7 @@ public class ActiveRecord implements Map<String, String>, Cachable {
         data.put(field_name, value);
         if(!not_modify) data_modified.put(field_name, value);
         if(!not_modify) for(OnChangeListener one: onChangeListeners) one.onChange(this, field_name);
+        if(!not_modify) mDataSetObservable.notifyChanged();
     }
     
     public void set(String field_name, String value){
@@ -272,6 +275,14 @@ public class ActiveRecord implements Map<String, String>, Cachable {
                 forRemove.add(one);
         for(Object one: forRemove)
             onChangeListeners.remove((OnChangeListener)one);
+    }
+
+    public void registerObserver(DataSetObserver observer){
+        mDataSetObservable.registerObserver(observer);
+    }
+
+    public void unregisterObserver(DataSetObserver observer){
+        mDataSetObservable.unregisterObserver(observer);
     }
 
     static public void removeAllOnChangeListeners(Context context){
