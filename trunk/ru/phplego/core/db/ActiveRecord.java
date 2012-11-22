@@ -77,9 +77,13 @@ public class ActiveRecord implements Map<String, String>, Cachable{
 
     public boolean load(long id){
         if(id == 0) return false;
+        return loadByWhere("_id="+id);
+    }
+
+    public boolean loadByWhere(String where){
         ActiveQuery q = new ActiveQuery();
         q.from(this);
-        q.where("_id="+id);
+        q.where(where);
         LinkedHashMap row = q.row();
         if(row.size() == 0) return false; //Запись не найдена
         this.loadFromMap(row);
