@@ -2,6 +2,8 @@ package ru.phplego.core.debug;
 
 import android.text.TextUtils;
 
+import java.util.Vector;
+
 /**
  * Extended logger.
  *
@@ -15,12 +17,31 @@ public final class Log {
     private static final String	PREFIX_STRING	= "> (";
     private static final String	PREFIX_MAIN_STRING	= " ~~~ ";
 
+    private static Vector<OnLogListener> mLogListenters = new Vector<OnLogListener>();
+
+    public static interface OnLogListener{
+        public void onLog(String msg);
+    }
+
+    public static void addOnLogListener(OnLogListener listener){
+        mLogListenters.add(listener);
+    }
+
+    public static void removeOnLogListener(OnLogListener listener){
+        mLogListenters.remove(listener);
+    }
+
+    private static void processMessageToListeners(String msg){
+        for(OnLogListener lis: mLogListenters) lis.onLog(msg);
+    }
+
     /**
      * Send a VERBOSE log message.
      *
      * @param msg The message you would like logged.
      */
     public static void v(String msg) {
+        processMessageToListeners(msg);
         android.util.Log.v(getLocation(), msg);
     }
 
@@ -30,6 +51,7 @@ public final class Log {
      * @param msg The message you would like logged.
      */
     public static void d(String msg) {
+        processMessageToListeners(msg);
         android.util.Log.d(getLocation(), msg);
     }
 
@@ -39,6 +61,7 @@ public final class Log {
      * @param msg The message you would like logged.
      */
     public static void i(String msg) {
+        processMessageToListeners(msg);
         android.util.Log.i(getLocation(), msg);
     }
 
@@ -48,6 +71,7 @@ public final class Log {
      * @param msg The message you would like logged.
      */
     public static void w(String msg) {
+        processMessageToListeners(msg);
         android.util.Log.w(getLocation(), msg);
     }
 
@@ -57,6 +81,7 @@ public final class Log {
      * @param msg The message you would like logged.
      */
     public static void e(String msg) {
+        processMessageToListeners(msg);
         android.util.Log.e(getLocation(), msg);
     }
 
@@ -69,6 +94,7 @@ public final class Log {
      * @param e An exception to log
      */
     public static void v(String msg, Exception e) {
+        processMessageToListeners(msg);
         android.util.Log.v(getLocation(), msg, e);
     }
 
@@ -79,6 +105,7 @@ public final class Log {
      * @param e An exception to log
      */
     public static void d(String msg, Exception e) {
+        processMessageToListeners(msg);
         android.util.Log.d(getLocation(), msg, e);
     }
 
@@ -89,6 +116,7 @@ public final class Log {
      * @param e An exception to log
      */
     public static void i(String msg, Exception e) {
+        processMessageToListeners(msg);
         android.util.Log.i(getLocation(), msg, e);
     }
 
@@ -99,6 +127,7 @@ public final class Log {
      * @param e An exception to log
      */
     public static void w(String msg, Exception e) {
+        processMessageToListeners(msg);
         android.util.Log.w(getLocation(), msg, e);
     }
 
@@ -109,6 +138,7 @@ public final class Log {
      * @param e An exception to log
      */
     public static void e(String msg, Exception e) {
+        processMessageToListeners(msg);
         android.util.Log.e(getLocation(), msg, e);
     }
 
@@ -170,6 +200,7 @@ public final class Log {
      * @param msg The message you would like logged.
      */
     public static void v(Object obj, String msg) {
+        processMessageToListeners(msg);
         android.util.Log.v(PREFIX_STRING + obj.getClass().getSimpleName() + POSFIX_STRING + getLocation(), msg);
     }
 
@@ -182,6 +213,7 @@ public final class Log {
      * @param msg The message you would like logged.
      */
     public static void d(Object obj, String msg) {
+        processMessageToListeners(msg);
         android.util.Log.d(PREFIX_STRING + obj.getClass().getSimpleName() + POSFIX_STRING + getLocation(), msg);
     }
 
@@ -194,6 +226,7 @@ public final class Log {
      * @param msg The message you would like logged.
      */
     public static void i(Object obj, String msg) {
+        processMessageToListeners(msg);
         android.util.Log.i(PREFIX_STRING + obj.getClass().getSimpleName() + POSFIX_STRING + getLocation(), msg);
     }
 
@@ -206,6 +239,7 @@ public final class Log {
      * @param msg The message you would like logged.
      */
     public static void w(Object obj, String msg) {
+        processMessageToListeners(msg);
         android.util.Log.w(PREFIX_STRING + obj.getClass().getSimpleName() + POSFIX_STRING + getLocation(), msg);
     }
 
@@ -218,6 +252,7 @@ public final class Log {
      * @param msg The message you would like logged.
      */
     public static void e(Object obj, String msg) {
+        processMessageToListeners(msg);
         android.util.Log.e(PREFIX_STRING + obj.getClass().getSimpleName() + POSFIX_STRING + getLocation(), msg);
     }
 
@@ -233,6 +268,7 @@ public final class Log {
      * @param e An exception to log
      */
     public static void v(Object obj, String msg, Exception e) {
+        processMessageToListeners(msg);
         android.util.Log.v(PREFIX_STRING + obj.getClass().getSimpleName() + POSFIX_STRING + getLocation(), msg, e);
     }
 
@@ -246,6 +282,7 @@ public final class Log {
      * @param e An exception to log
      */
     public static void d(Object obj, String msg, Exception e) {
+        processMessageToListeners(msg);
         android.util.Log.d(PREFIX_STRING + obj.getClass().getSimpleName() + POSFIX_STRING + getLocation(), msg, e);
     }
 
@@ -259,6 +296,7 @@ public final class Log {
      * @param e An exception to log
      */
     public static void i(Object obj, String msg, Exception e) {
+        processMessageToListeners(msg);
         android.util.Log.i(PREFIX_STRING + obj.getClass().getSimpleName() + POSFIX_STRING + getLocation(), msg, e);
     }
 
@@ -272,6 +310,7 @@ public final class Log {
      * @param e An exception to log
      */
     public static void w(Object obj, String msg, Exception e) {
+        processMessageToListeners(msg);
         android.util.Log.w(PREFIX_STRING + obj.getClass().getSimpleName() + POSFIX_STRING + getLocation(), msg, e);
     }
 
@@ -285,6 +324,7 @@ public final class Log {
      * @param msg The message you would like logged.
      */
     public static void e(Object obj, String msg, Exception e) {
+        processMessageToListeners(msg);
         android.util.Log.e(PREFIX_STRING + obj.getClass().getSimpleName() + POSFIX_STRING + getLocation(), msg, e);
     }
 
@@ -319,7 +359,6 @@ public final class Log {
 
             return getClassName(clazz.getEnclosingClass());
         }
-
         return "";
     }
 
