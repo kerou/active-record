@@ -6,6 +6,7 @@ import android.database.DataSetObservable;
 import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import ru.phplego.core.Cachable;
+import ru.phplego.core.debug.Log;
 
 import java.util.*;
 
@@ -154,6 +155,9 @@ public class ActiveRecord implements Map<String, String>, Cachable{
     
     public void set(String field_name, String value, boolean not_modify){
         if(data.containsKey(field_name) && data.get(field_name).equals(value)) return; //поле не имзенилось
+        Log.d("Old value: "+data.get(field_name));
+        Log.d("New value: "+value);
+        Log.d("------------");
         data.put(field_name, value);
         if(!not_modify) data_modified.put(field_name, value);
         if(!not_modify) for(OnChangeListener one: onChangeListeners) one.onChange(this, field_name);
@@ -287,6 +291,10 @@ public class ActiveRecord implements Map<String, String>, Cachable{
 
     public void unregisterObserver(DataSetObserver observer){
         mDataSetObservable.unregisterObserver(observer);
+    }
+
+    public void notifyChanged(){
+        mDataSetObservable.notifyChanged();
     }
 
     static public void removeAllOnChangeListeners(Context context){

@@ -37,6 +37,10 @@ public class Application extends android.app.Application {
         return mContext;
     }
 
+    public static Application getInstance(){
+        return mInstance;
+    }
+
     public static SQLiteDatabase getDb ()  {
         return Database.getDatabase();
     }
