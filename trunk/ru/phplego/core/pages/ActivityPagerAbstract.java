@@ -140,7 +140,7 @@ public class ActivityPagerAbstract extends Activity implements ViewPager.OnPageC
         this.setCurrentPage(pagePosition, false);
     }
 
-    protected void invalidateOptionsMenu(){
+    public void invalidateOptionsMenu(){
         if(myOptionsMenu == null) return;
         myOptionsMenu.clear();
         /*
