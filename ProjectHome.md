@@ -1,0 +1,1 @@
+Open source implementation of pattern Active Record for Android platform
